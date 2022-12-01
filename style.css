@@ -1,0 +1,35 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+li {
+    text-decoration: none;
+    display: inline-block;    
+}
+
+li:hover {
+    cursor: pointer;
+    color: red;
+}
+
+ul {
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.centerContent {
+    text-align: center;
+    margin-left: 25%;
+    margin-right:25%;
+
+}
+
+.answerFeedback {
+    border-top: solid black;
+    opacity: 25%;
+}
+    
+
