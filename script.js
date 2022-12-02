@@ -1,13 +1,22 @@
 var questionEl = document.querySelector(".questionTitle")
-var answersEl = document.querySelector(".answers")
+var answer1El = document.querySelector(".answer1")
+var answer2El = document.querySelector(".answer2")
+var answer3El = document.querySelector(".answer3")
+var answer4El = document.querySelector(".answer4")
 var highScoreEl = document.querySelector(".highScores")
 var playButtonEl = document.querySelector(".playButton")
 var timerEl = document.querySelector(".timeLeft")
+var answerContainerEl = document.querySelector(".answerContainer")
+var selectedAnswer;
 //initalizing variables
 var timerCount;
 var gameDone;
 var user = [];
 var highScore = [];
+var userLocal = [];
+var scoreLocal = [];
+var questionNumber;
+
 //Keeping track 
 var answerCorrectness;
 
@@ -64,23 +73,69 @@ var highScoresScreen = {
 initalize();
 //Function to get highscores from webpage memory when the page loads
 function initalize() {
-    user = localStorage.getItem(userLocal)
-    highScore = localStorage.getItem(highScoreLocal)
+    var initalUser = JSON.parse(localStorage.getItem(userLocal))
+    //If variable doesn't exist yet, set to nothing
+    if (initalUser === null) {
+        user = []
+    } else {
+        user = JSON.parse(localStorage.getItem(userLocal))
+    }
+
+    var initalScore = JSON.parse(localStorage.getItem(scoreLocal))
+    //If variable doesn't exist yet, set to nothing
+    if (initalScore === null) {
+        highScore = []
+    } else {
+        highScore = JSON.parse(localStorage.getItem(scoreLocal))
+    }
 }
 //Displaying High Scores
 function displayHighScores() {
-    
+
 }
 
-// Listen for click event on "View High Scores" tab
-playButtonEl.addEventListener("click", function (event) {
-    gameDone = false;
-    //Setting the inital start time/score
-    timerCount = 100;
-    playButtonEl.disabled = true;
-    timer()
-})
+function startGame() {
+    //Starting off with the first question
+    questionNumber = 0;
+    while (gameDone === false) {
 
+        if (questionNumber === 0) {
+            questionEl.textContent = questionsList[0].question;
+            answer1El.textContent = questionsList[0].answerOne;
+            answer2El.textContent = questionsList[0].answerTwo;
+            answer3El.textContent = questionsList[0].answerThree;
+            answer4El.textContent = questionsList[0].answerFour;
+        }
+        if (questionNumber === 1) {
+            questionEl.textContent = questionsList[1].question;
+            answer1El.textContent = questionsList[1].answerOne;
+            answer2El.textContent = questionsList[1].answerTwo;
+            answer3El.textContent = questionsList[1].answerThree;
+            answer4El.textContent = questionsList[1].answerFour;
+        }
+        if (questionNumber === 2) {
+            questionEl.textContent = questionsList[2].question;
+            answer1El.textContent = questionsList[2].answerOne;
+            answer2El.textContent = questionsList[2].answerTwo;
+            answer3El.textContent = questionsList[2].answerThree;
+            answer4El.textContent = questionsList[2].answerFour;
+        }
+        if (questionNumber === 3) {
+            questionEl.textContent = questionsList[3].question;
+            answer1El.textContent = questionsList[3].answerOne;
+            answer2El.textContent = questionsList[3].answerTwo;
+            answer3El.textContent = questionsList[3].answerThree;
+            answer4El.textContent = questionsList[3].answerFour;
+        }
+        if (answerCorrectness === true) {
+            questionNumber++;
+            answerCorrectness = false;
+        }
+        if (questionNumber === 4) {
+            gameDone = true;
+        }
+    }
+}
 // Function starts the timer/score for the game
 function timer() {
     // Start timer
@@ -94,7 +149,28 @@ function timer() {
             // Clears interval
             clearInterval(timer);
             displayHighScores();
+            timerEl.textContent = "Game Over";
+            playButtonEl.disabled = false;
         }
     }, 1000)
 
 }
+
+//Checking for Correct or incorrect answer when pressing a button
+answerContainerEl.addEventListener("click", function (event) {
+    var currentAnswer = event.textContent
+    if (currentAnswer === questionsList[0].correctAnswer && questionNumber === 0) {
+        answerCorrectnes = true;
+    }
+})
+
+// Listen for click event on "View High Scores" tab
+playButtonEl.addEventListener("click", function (event) {
+    gameDone = false;
+    //Setting the inital start time/score
+    timerCount = 100;
+    playButtonEl.disabled = true;
+    startGame()
+    timer()
+
+})
