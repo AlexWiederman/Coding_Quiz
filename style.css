@@ -7,24 +7,44 @@
 li {
     text-decoration: none;
     display: inline-block;    
+    font-size: 25px;
+    padding: 10px;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
 }
 
-li:hover {
+ 
+
+.playButton, .highScores, .timeLeft{
+    background-color: brown;
+    color: white;
+    border: solid black 3px;
+    border-radius: 5px;
+    display: flex;
+    width: 200px;
+    text-align: center;
+    justify-content: center;
+    margin-left: 20px;
+}
+.playButton:hover, .highScores:hover{
     cursor: pointer;
-    color: red;
+    color: black;
+    transform: scale(104%);
 }
 
 ul {
     padding: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    
 }
 
 .centerContent {
     text-align: center;
     margin-left: 25%;
     margin-right:25%;
-
+    border: solid 2px;
+    border-radius: 5px;
 }
 
 .answerFeedback {
