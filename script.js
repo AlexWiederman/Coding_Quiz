@@ -10,6 +10,7 @@ var answerContainerEl = document.querySelector(".answerContainer")
 var answerFeedbackEl = document.querySelector(".answerFeedback")
 var selectedAnswer;
 //initalizing variables
+var questionAnswered;
 var timerCount;
 var gameDone;
 var user = [];
@@ -98,14 +99,15 @@ function displayHighScores() {
 function startGame() {
     //Starting off with the first question
     questionNumber = 0;
-        if (questionNumber === 0) {
-            questionEl.textContent = questionsList[0].question;
-            answer1El.textContent = questionsList[0].answerOne;
-            answer2El.textContent = questionsList[0].answerTwo;
-            answer3El.textContent = questionsList[0].answerThree;
-            answer4El.textContent = questionsList[0].answerFour;
-        }
-        
+    questionAnswered = false;
+    if (questionNumber === 0) {
+
+        questionEl.textContent = questionsList[0].question;
+        answer1El.textContent = questionsList[0].answerOne;
+        answer2El.textContent = questionsList[0].answerTwo;
+        answer3El.textContent = questionsList[0].answerThree;
+        answer4El.textContent = questionsList[0].answerFour;
+    }
 }
 
 //Go to next question after a correct or incorect answer
@@ -116,7 +118,7 @@ function nextQuestion() {
         answer2El.textContent = questionsList[1].answerTwo;
         answer3El.textContent = questionsList[1].answerThree;
         answer4El.textContent = questionsList[1].answerFour;
-    } else if(questionNumber === 2) {
+    } else if (questionNumber === 2) {
         questionEl.textContent = questionsList[2].question;
         answer1El.textContent = questionsList[2].answerOne;
         answer2El.textContent = questionsList[2].answerTwo;
@@ -129,16 +131,22 @@ function nextQuestion() {
         answer3El.textContent = questionsList[3].answerThree;
         answer4El.textContent = questionsList[3].answerFour;
     } else if (questionNumber === 4) {
-        questionEl.textContent = "";
-        answer1El.textContent = "";
-        answer2El.textContent = "";
-        answer3El.textContent = "";
-        answer4El.textContent = "";
-        
+        //changing the class of the answer buttons to hide them in order to show the high scores
+        answer1El.setAttribute("class", "")
         gameDone = true;
     }
-
 }
+
+//Displaying the answerfeedback for a short time
+function answerCorrectFeedback() {
+    if (questionAnswered === true)
+        answerFeedbackEl.textContent = "Answer Correct!"
+}
+function answerIncorrectFeedback() {
+    if (questionAnswered === true)
+        answerFeedbackEl.textContent = "Answer Incorrect!"
+}
+
 // Function starts the timer/score for the game
 function timer() {
     // Start timer
@@ -146,14 +154,30 @@ function timer() {
         timerCount--;
         timerEl.textContent = "Time Left: " + timerCount;
 
+        //Subtracting from Timer count when an answer is wrong
+        if (answerCorrectness === false && questionAnswered === true) {
+            timerCount = timerCount - 10;
+            //reseting variable so it will only subtract 10 once
+            questionAnswered = false;
+        } else if (answerCorrectness === true && questionAnswered === true) {
+            //Reseting variable with no action because the answer was correct
+            questionAnswered = false;
+        }
 
         // If time has run out
         if (timerCount === 0 || gameDone === true) {
             // Clears interval
             clearInterval(timer);
             displayHighScores();
-            timerEl.textContent = "Game Over";
+            timerEl.textContent = "Game Over: " + timerCount;
             playButtonEl.disabled = false;
+            //Setting question texts to blank after game is over
+            questionEl.textContent = "";
+            answer1El.textContent = "";
+            answer2El.textContent = "";
+            answer3El.textContent = "";
+            answer4El.textContent = "";
+
         }
     }, 1000)
 
@@ -162,28 +186,33 @@ function timer() {
 
 //Checking for Correct or incorrect answer when pressing a button
 answerContainerEl.addEventListener("click", function (event) {
-    var currentAnswer = event.path[0].outerText
-    if (currentAnswer === questionsList[0].correctAnswer && questionNumber === 0) {
-        answerCorrectness = true;
-    } else {
-        answerCorrectness = false;
+    //Only look for another answer click once the previous one has been read. It takes a second to read it because of the timer
+    if (questionAnswered === false) {
+        var currentAnswer = event.path[0].outerText
+        if (currentAnswer === questionsList[0].correctAnswer && questionNumber === 0) {
+            questionAnswered = true;
+            answerCorrectness = true;
+        } else {
+            questionAnswered = true;
+            answerCorrectness = false;
+        }
+        if (answerCorrectness === true) {
+            questionNumber++;
+            answerCorrectFeedback()
+        } else {
+            questionNumber++;
+            answerIncorrectFeedback()
+
+        }
+        nextQuestion()
     }
-    if (answerCorrectness === true) {
-        questionNumber++;
-        answerFeedbackEl.textContent = "Answer Correct!"
-        answerCorrectness = false;
-    } else {
-        questionNumber++;
-        answerFeedbackEl.textContent = "Answer Incorrect!"
-    }
-    nextQuestion()
 })
 
 // Listen for click event on "View High Scores" tab
 playButtonEl.addEventListener("click", function (event) {
     gameDone = false;
     //Setting the inital start time/score
-    timerCount = 100;
+    timerCount = 10;
     playButtonEl.disabled = true;
     startGame()
     timer()
