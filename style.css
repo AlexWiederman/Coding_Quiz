@@ -47,10 +47,7 @@ button {
     transform: scale(104%);
 }
 
-.answer1,
-.answer2,
-.answer3,
-.answer4 {
+.showAnswers {
     width: 300px;
     background-color: blueviolet;
     margin: 5px auto;
@@ -61,6 +58,7 @@ button {
 
 .hideAnswers {
     background-color: "";
+    color: white;
     border: 0px;
     width: 300px;
 }

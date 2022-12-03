@@ -7,6 +7,7 @@ var highScoreEl = document.querySelector(".highScores")
 var playButtonEl = document.querySelector(".playButton")
 var timerEl = document.querySelector(".timeLeft")
 var answerContainerEl = document.querySelector(".answerContainer")
+var answerFeedbackEl = document.querySelector(".answerFeedback")
 var selectedAnswer;
 //initalizing variables
 var timerCount;
@@ -97,8 +98,6 @@ function displayHighScores() {
 function startGame() {
     //Starting off with the first question
     questionNumber = 0;
-    while (gameDone === false) {
-
         if (questionNumber === 0) {
             questionEl.textContent = questionsList[0].question;
             answer1El.textContent = questionsList[0].answerOne;
@@ -106,35 +105,39 @@ function startGame() {
             answer3El.textContent = questionsList[0].answerThree;
             answer4El.textContent = questionsList[0].answerFour;
         }
-        if (questionNumber === 1) {
-            questionEl.textContent = questionsList[1].question;
-            answer1El.textContent = questionsList[1].answerOne;
-            answer2El.textContent = questionsList[1].answerTwo;
-            answer3El.textContent = questionsList[1].answerThree;
-            answer4El.textContent = questionsList[1].answerFour;
-        }
-        if (questionNumber === 2) {
-            questionEl.textContent = questionsList[2].question;
-            answer1El.textContent = questionsList[2].answerOne;
-            answer2El.textContent = questionsList[2].answerTwo;
-            answer3El.textContent = questionsList[2].answerThree;
-            answer4El.textContent = questionsList[2].answerFour;
-        }
-        if (questionNumber === 3) {
-            questionEl.textContent = questionsList[3].question;
-            answer1El.textContent = questionsList[3].answerOne;
-            answer2El.textContent = questionsList[3].answerTwo;
-            answer3El.textContent = questionsList[3].answerThree;
-            answer4El.textContent = questionsList[3].answerFour;
-        }
-        if (answerCorrectness === true) {
-            questionNumber++;
-            answerCorrectness = false;
-        }
-        if (questionNumber === 4) {
-            gameDone = true;
-        }
+        
+}
+
+//Go to next question after a correct or incorect answer
+function nextQuestion() {
+    if (questionNumber === 1) {
+        questionEl.textContent = questionsList[1].question;
+        answer1El.textContent = questionsList[1].answerOne;
+        answer2El.textContent = questionsList[1].answerTwo;
+        answer3El.textContent = questionsList[1].answerThree;
+        answer4El.textContent = questionsList[1].answerFour;
+    } else if(questionNumber === 2) {
+        questionEl.textContent = questionsList[2].question;
+        answer1El.textContent = questionsList[2].answerOne;
+        answer2El.textContent = questionsList[2].answerTwo;
+        answer3El.textContent = questionsList[2].answerThree;
+        answer4El.textContent = questionsList[2].answerFour;
+    } else if (questionNumber === 3) {
+        questionEl.textContent = questionsList[3].question;
+        answer1El.textContent = questionsList[3].answerOne;
+        answer2El.textContent = questionsList[3].answerTwo;
+        answer3El.textContent = questionsList[3].answerThree;
+        answer4El.textContent = questionsList[3].answerFour;
+    } else if (questionNumber === 4) {
+        questionEl.textContent = "";
+        answer1El.textContent = "";
+        answer2El.textContent = "";
+        answer3El.textContent = "";
+        answer4El.textContent = "";
+        
+        gameDone = true;
     }
+
 }
 // Function starts the timer/score for the game
 function timer() {
@@ -156,12 +159,24 @@ function timer() {
 
 }
 
+
 //Checking for Correct or incorrect answer when pressing a button
 answerContainerEl.addEventListener("click", function (event) {
-    var currentAnswer = event.textContent
+    var currentAnswer = event.path[0].outerText
     if (currentAnswer === questionsList[0].correctAnswer && questionNumber === 0) {
-        answerCorrectnes = true;
+        answerCorrectness = true;
+    } else {
+        answerCorrectness = false;
     }
+    if (answerCorrectness === true) {
+        questionNumber++;
+        answerFeedbackEl.textContent = "Answer Correct!"
+        answerCorrectness = false;
+    } else {
+        questionNumber++;
+        answerFeedbackEl.textContent = "Answer Incorrect!"
+    }
+    nextQuestion()
 })
 
 // Listen for click event on "View High Scores" tab
