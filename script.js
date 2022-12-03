@@ -96,6 +96,8 @@ function startGame() {
     //Starting off with the first question
     questionNumber = 0;
     questionAnswered = false;
+    // Reseting temp score variable when a new game is started 
+    localStorage.setItem("scoreLocalTemp", "");
      //changing the class of the answer buttons to hide them in order to show the high scores
      answer1El.setAttribute("id", "showAnswers")
      answer2El.setAttribute("id", "showAnswers")
@@ -193,7 +195,7 @@ function timer() {
 }
 //Checking for Correct or incorrect answer when pressing a button
 answerContainerEl.addEventListener("click", function (event) {
-    // Stopping bubbling so you have to press the actual button
+    // Stopping bubbling if something is created later
     event.stopPropagation();
     //Only look for another answer click once the previous one has been read. It takes a second to read it because of the timer
     if (questionAnswered === false) {
