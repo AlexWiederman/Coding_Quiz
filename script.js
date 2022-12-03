@@ -91,15 +91,16 @@ function initalize() {
         highScore = JSON.parse(localStorage.getItem(scoreLocal))
     }
 }
-//Displaying High Scores
-function displayHighScores() {
-
-}
 
 function startGame() {
     //Starting off with the first question
     questionNumber = 0;
     questionAnswered = false;
+     //changing the class of the answer buttons to hide them in order to show the high scores
+     answer1El.setAttribute("id", "showAnswers")
+     answer2El.setAttribute("id", "showAnswers")
+     answer3El.setAttribute("id", "showAnswers")
+     answer4El.setAttribute("id", "showAnswers")
     if (questionNumber === 0) {
 
         questionEl.textContent = questionsList[0].question;
@@ -131,8 +132,6 @@ function nextQuestion() {
         answer3El.textContent = questionsList[3].answerThree;
         answer4El.textContent = questionsList[3].answerFour;
     } else if (questionNumber === 4) {
-        //changing the class of the answer buttons to hide them in order to show the high scores
-        answer1El.setAttribute("class", "")
         gameDone = true;
     }
 }
@@ -141,10 +140,12 @@ function nextQuestion() {
 function answerCorrectFeedback() {
     if (questionAnswered === true)
         answerFeedbackEl.textContent = "Answer Correct!"
+        answerFeedbackEl.setAttribute("id", "answerCorrect")
 }
 function answerIncorrectFeedback() {
     if (questionAnswered === true)
         answerFeedbackEl.textContent = "Answer Incorrect!"
+        answerFeedbackEl.setAttribute("id", "answerIncorrect")
 }
 
 // Function starts the timer/score for the game
@@ -164,11 +165,10 @@ function timer() {
             questionAnswered = false;
         }
 
-        // If time has run out
-        if (timerCount === 0 || gameDone === true) {
+        // If time has run out or answers are finished
+        if (timerCount <= 0 || gameDone === true) {
             // Clears interval
             clearInterval(timer);
-            displayHighScores();
             timerEl.textContent = "Game Over: " + timerCount;
             playButtonEl.disabled = false;
             //Setting question texts to blank after game is over
@@ -177,15 +177,24 @@ function timer() {
             answer2El.textContent = "";
             answer3El.textContent = "";
             answer4El.textContent = "";
+            //changing the class of the answer buttons to hide them to show that the game is finished
+            answer1El.setAttribute("id", "hideAnswers")
+            answer2El.setAttribute("id", "hideAnswers")
+            answer3El.setAttribute("id", "hideAnswers")
+            answer4El.setAttribute("id", "hideAnswers")
+            //Storing timer variable temperarlly in variable to call again on high scores screen
+            localStorage.setItem("scoreLocalTemp", JSON.stringify(timerCount));
+            // Automatically going to high scores page after the game is over in order to store high score locally
+            window.location.href = "./highScores.html"
 
         }
     }, 1000)
 
 }
-
-
 //Checking for Correct or incorrect answer when pressing a button
 answerContainerEl.addEventListener("click", function (event) {
+    // Stopping bubbling so you have to press the actual button
+    event.stopPropagation();
     //Only look for another answer click once the previous one has been read. It takes a second to read it because of the timer
     if (questionAnswered === false) {
         var currentAnswer = event.path[0].outerText
@@ -202,17 +211,16 @@ answerContainerEl.addEventListener("click", function (event) {
         } else {
             questionNumber++;
             answerIncorrectFeedback()
-
         }
         nextQuestion()
     }
 })
 
-// Listen for click event on "View High Scores" tab
+// Listen for click event on "Play Game" tab
 playButtonEl.addEventListener("click", function (event) {
     gameDone = false;
     //Setting the inital start time/score
-    timerCount = 10;
+    timerCount = 100;
     playButtonEl.disabled = true;
     startGame()
     timer()

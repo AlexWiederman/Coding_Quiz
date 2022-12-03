@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: none;
+}
+
 li,
 button {
     text-decoration: none;
@@ -48,9 +52,9 @@ button {
 }
 
 #showAnswers {
-    width: 300px;
+    width: auto;
     background-color: blueviolet;
-    margin: 5px auto;
+  
     /*centering answers on page*/
     border: solid black;
     color: white;
@@ -60,7 +64,7 @@ button {
     background-color: "";
     color: white;
     border: 0px;
-    width: 300px;
+    width: auto;
 }
 
 ul {
@@ -80,5 +84,30 @@ ul {
 
 .answerFeedback {
     border-top: solid black;
-    opacity: 25%;
+    opacity: 50%;
+}
+#answerCorrect {
+    background-color: green;
+}
+
+#answerIncorrect {
+    background-color: red;
+}
+
+.backButton {
+    font-size: large;
+    background-color: aqua;
+    margin: 10px ;
+    margin-top: 10px;
+    padding: 10px;
+border: solid 2px;
+}
+
+/* Making sure buttons are not too big when shrinking the page*/
+@media only screen and (max-width: 650px) {
+    .playButton,
+    .highScores,.timeLeft {
+        width: auto;
+    }
+   
 }
