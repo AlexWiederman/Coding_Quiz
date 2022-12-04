@@ -15,16 +15,21 @@
     </header>
     <section>
         <h1>Game Over!</h1>
-        <h2 class = "score"></h2>
+        <h2 class="score"></h2>
     </section>
     <form>
         Name: <input class="name" type="text">
-        <input class = "submit" type="button" value="Submit">
+        <input class="submit" type="button" value="Submit">
     </form>
     <section>
-        <h3 class = "center">High Scores</h3>
-        <h4 class = "center"></h4>
-        <h5 class = "center"></h5>
+        <h3 class="center">High Scores</h3>
+        <div class="center">
+            <input class="clearAll" type="button" value="Clear all">
+        </div>
+        <div class="lineBreak">
+            <h4 class="center displayScores"></h4>
+        </div>
+
     </section>
 
     <script src="./highScoresScript.js"></script>

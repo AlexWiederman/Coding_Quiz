@@ -20,4 +20,9 @@ form {
 
 .center {
     text-align: center;
+    
+}
+
+.displayScores{
+    white-space: pre-line;
 }
