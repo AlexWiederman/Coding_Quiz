@@ -61,15 +61,7 @@ var questionsList = [
         answerFour: "All of the above."
     }
 ]
-var highScoresScreen = {
-    number: 0,
-    question: "High Scores",
-    answer: "It acts as a breakpoint in a program.",
-    answerOne: "",
-    answerTwo: "",
-    answerThree: "",
-    answerFour: ""
-}
+
 
 //Calling function so scores are loaded when page is first opened
 initalize();
@@ -199,8 +191,10 @@ answerContainerEl.addEventListener("click", function (event) {
     event.stopPropagation();
     //Only look for another answer click once the previous one has been read. It takes a second to read it because of the timer
     if (questionAnswered === false) {
+        // creating variable to look at any answer to compare it
+        var questionIndex = questionNumber + 1
         var currentAnswer = event.path[0].outerText
-        if (currentAnswer === questionsList[0].correctAnswer && questionNumber === 0) {
+        if (currentAnswer === questionsList[questionNumber].correctAnswer ) {
             questionAnswered = true;
             answerCorrectness = true;
         } else {
