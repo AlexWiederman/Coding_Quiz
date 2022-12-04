@@ -5,21 +5,24 @@ var displayScoresEl = document.querySelector(".displayScores")
 var clearAllEl = document.querySelector(".clearAll")
 var lineBreakEl = document.querySelector(".lineBreak")
 
+
 var scoreNew = JSON.parse(localStorage.getItem("scoreLocalTemp"))
 
 if (scoreNew == null) {
-    window.location.href = "./index.html"
+    submitEl.disabled = true;
+} else {
+    scoreEl.textContent = "Your Score is: " + scoreNew
+    submitEl.disabled = false;
 }
-// submitEl.disabled = false;
 
 
 
-scoreEl.textContent = "Your Score is: " + scoreNew
+
 
 displayHighScores()
 
 submitEl.addEventListener("click", function (event) {
-    // submitEl.disabled = true;
+    submitEl.disabled = true;
     var scoreLocalFunction = JSON.parse(localStorage.getItem("scoreLocal"))
     var userLocalFunction = JSON.parse(localStorage.getItem("userLocal"))
 // Getting entered text in text box
@@ -54,12 +57,18 @@ function displayHighScores() {
     var score = JSON.parse(localStorage.getItem("scoreLocal"));
     var user = JSON.parse(localStorage.getItem("userLocal"));
     
-
     if (score && user !== null) {
+        var removeEl = document.querySelectorAll(".adding")
+        for (i=0; i<removeEl.length; i++) {
+            removeEl[i].remove();
+        }
         for (i = 0; i < score.length; i++) {
+
             
-                displayScoresEl.textContent = user[i] + " ----" + score[i];
-            
+            var tag = document.createElement("div");
+            tag.classList.add("adding")
+            tag.textContent = user[i] + " ----" + score[i];
+            lineBreakEl.appendChild(tag)            
         }
     } else {
         displayScoresEl.textContent = "";
@@ -68,5 +77,13 @@ function displayHighScores() {
 
 clearAllEl.addEventListener("click", function (event) {
     localStorage.clear();
+    //Selecting all scores that have been printed to the screen
+    var removeEl = document.querySelectorAll(".adding")
+    for (i=0; i<removeEl.length; i++) {
+        removeEl[i].remove();
+    }
+    
+
+
     displayHighScores();
 })

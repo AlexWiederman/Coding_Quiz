@@ -18,7 +18,8 @@ var highScore = [];
 var userLocal = [];
 var scoreLocal = [];
 var questionNumber;
-
+var resetCount = null;
+localStorage.setItem("scoreLocalTemp", JSON.stringify(resetCount));
 //Keeping track 
 var answerCorrectness;
 

@@ -26,3 +26,7 @@ form {
 .displayScores{
     white-space: pre-line;
 }
+
+.adding {
+    text-align: center;
+}
