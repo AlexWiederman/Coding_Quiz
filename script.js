@@ -86,6 +86,8 @@ function initalize() {
 }
 
 function startGame() {
+    //turning off ability to view high scores
+    
     //Starting off with the first question
     questionNumber = 0;
     questionAnswered = false;
@@ -134,12 +136,12 @@ function nextQuestion() {
 //Displaying the answerfeedback for a short time
 function answerCorrectFeedback() {
     if (questionAnswered === true)
-        answerFeedbackEl.textContent = "Answer Correct!"
+        answerFeedbackEl.textContent = "Previous Answer Correct!"
         answerFeedbackEl.setAttribute("id", "answerCorrect")
 }
 function answerIncorrectFeedback() {
     if (questionAnswered === true)
-        answerFeedbackEl.textContent = "Answer Incorrect!"
+        answerFeedbackEl.textContent = "Previous Answer Incorrect!"
         answerFeedbackEl.setAttribute("id", "answerIncorrect")
 }
 
