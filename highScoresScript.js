@@ -53,10 +53,13 @@ function displayHighScores() {
 
     var score = JSON.parse(localStorage.getItem("scoreLocal"));
     var user = JSON.parse(localStorage.getItem("userLocal"));
+    
 
     if (score && user !== null) {
         for (i = 0; i < score.length; i++) {
-                displayScoresEl.textContent = '\n' + user[i] + " ----" + score[i];
+            
+                displayScoresEl.textContent = user[i] + " ----" + score[i];
+            
         }
     } else {
         displayScoresEl.textContent = "";
